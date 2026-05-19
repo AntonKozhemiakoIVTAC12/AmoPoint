@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>AmoPoint tracker — standalone demo</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.5; color: #1f2937; }
+        h1 { color: #0f172a; }
+        pre { background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 8px; font-size: 12px; overflow:auto; }
+        code { background: #f1f5f9; padding: 2px 4px; border-radius: 3px; }
+        button { padding: 8px 14px; border: 0; background: #0ea5e9; color: white; border-radius: 6px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>tracker.js — standalone demo</h1>
+    <p>Чтобы трекер заработал, замените <code>data-endpoint</code> в теге ниже на адрес,
+       где запущен наш Laravel‑бэк (по умолчанию <code>http://localhost:8000/api/track</code>).
+       Откройте DevTools → Network и убедитесь, что после клика по кнопке уходит POST‑запрос.</p>
+
+    <button id="ping">Симулировать визит</button>
+    <pre id="log">// здесь появится payload и ответ сервера</pre>
+
+    <script src="./tracker.js"
+            data-endpoint="http://localhost:8000/api/track"
+            data-auto="true"></script>
+    <script>
+        const log = document.getElementById('log');
+        document.getElementById('ping').addEventListener('click', async () => {
+            const payload = await window.AmoPointTracker.buildPayload();
+            log.textContent = 'payload: ' + JSON.stringify(payload, null, 2);
+            const result = await window.AmoPointTracker.track();
+            log.textContent += '\n\nresponse: ' + JSON.stringify(result, null, 2);
+        });
+    </script>
+</body>
+</html>

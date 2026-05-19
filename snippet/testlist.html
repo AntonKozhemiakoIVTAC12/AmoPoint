@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>testlist — демо фильтра полей по типу</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      max-width: 640px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+    p.lead { color: #666; margin-top: 0; }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .form-row > label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .form-row input,
+    .form-row textarea,
+    .form-row select {
+      padding: 0.45rem 0.6rem;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font: inherit;
+    }
+    .form-row textarea { min-height: 4rem; resize: vertical; }
+    .actions { margin-top: 1rem; }
+    button {
+      padding: 0.5rem 1rem;
+      border: 0;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    .hint {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: #f3f4f6;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <h1>testlist.html</h1>
+  <p class="lead">
+    Демо-страница для проверки фильтра. Выберите значение в поле «Тип» —
+    останутся только поля, в <code>name</code> которых встречается выбранная подстрока.
+  </p>
+
+  <form id="testform" autocomplete="off">
+    <div class="form-row">
+      <label for="type">Тип</label>
+      <select id="type" name="type">
+        <option value="">— все поля —</option>
+        <option value="name">name</option>
+        <option value="phone">phone</option>
+        <option value="email">email</option>
+        <option value="address">address</option>
+        <option value="birthday">birthday</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="first_name">Имя</label>
+      <input id="first_name" name="first_name" type="text" placeholder="Иван">
+    </div>
+
+    <div class="form-row">
+      <label for="last_name">Фамилия</label>
+      <input id="last_name" name="last_name" type="text" placeholder="Иванов">
+    </div>
+
+    <div class="form-row">
+      <label for="phone_mobile">Мобильный телефон</label>
+      <input id="phone_mobile" name="phone_mobile" type="tel" placeholder="+7 999 123-45-67">
+    </div>
+
+    <div class="form-row">
+      <label for="phone_work">Рабочий телефон</label>
+      <input id="phone_work" name="phone_work" type="tel" placeholder="+7 495 ...">
+    </div>
+
+    <div class="form-row">
+      <label for="email_primary">Основной email</label>
+      <input id="email_primary" name="email_primary" type="email" placeholder="user@example.com">
+    </div>
+
+    <div class="form-row">
+      <label for="email_backup">Резервный email</label>
+      <input id="email_backup" name="email_backup" type="email" placeholder="backup@example.com">
+    </div>
+
+    <div class="form-row">
+      <label for="address_city">Город</label>
+      <input id="address_city" name="address_city" type="text" placeholder="Москва">
+    </div>
+
+    <div class="form-row">
+      <label for="address_street">Улица</label>
+      <input id="address_street" name="address_street" type="text" placeholder="ул. Тверская, 1">
+    </div>
+
+    <div class="form-row">
+      <label for="address_notes">Комментарий к адресу</label>
+      <textarea id="address_notes" name="address_notes" placeholder="код домофона, этаж и т.д."></textarea>
+    </div>
+
+    <div class="form-row">
+      <label for="birthday_day">Дата рождения</label>
+      <input id="birthday_day" name="birthday_day" type="date">
+    </div>
+
+    <div class="actions">
+      <button type="submit">Сохранить</button>
+    </div>
+  </form>
+
+  <div class="hint">
+    Подсказка: откройте DevTools — фильтр печатает в консоль, какие поля скрыл.
+    Скрипт идемпотентен, повторное подключение не дублирует обработчики.
+  </div>
+
+  <script src="./testlist-filter.js"></script>
+</body>
+</html>

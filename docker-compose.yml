@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: amopoint-app:latest
+    container_name: amopoint-app
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+    command: >
+      sh -c "[ -f database/database.sqlite ] || touch database/database.sqlite;
+             [ -d vendor ] || composer install --no-interaction --prefer-dist;
+             [ -f .env ] || (cp .env.example .env && php artisan key:generate);
+             php artisan migrate --force;
+             php artisan serve --host=0.0.0.0 --port=8000"
+
+  scheduler:
+    image: amopoint-app:latest
+    container_name: amopoint-scheduler
+    depends_on:
+      - app
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+    command: ["php", "artisan", "schedule:work"]
