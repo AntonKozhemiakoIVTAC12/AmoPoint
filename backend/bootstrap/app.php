@@ -13,7 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         apiPrefix: 'api',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // За PaaS-прокси (Railway/Fly/Render) Laravel сам не определит, что
+        // запрос пришёл по HTTPS, поэтому редиректы на login слетают на http.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
